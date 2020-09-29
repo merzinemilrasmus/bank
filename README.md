@@ -45,3 +45,24 @@ POST /users {
   409;
 ]
 ```
+
+#### Login
+
+```
+POST /sessions {
+  username: string;
+  password: string;
+} -> [
+  200: {
+    jwt: string;
+  };
+  400: {
+    errors: {
+      msg: string;
+      param: string;
+      location: string;
+    }[];
+  };
+  401;
+]
+```
