@@ -5,7 +5,7 @@ export interface User {
   id: number;
   name: string;
   username: string;
-  passwordHash: string;
+  password_hash: string;
 }
 
 export interface NewUser {
@@ -35,6 +35,21 @@ export interface UserProfile {
     balance: number;
   }[];
 }
+
+export interface Login {
+  username: string;
+  password: string;
+}
+
+export const verify = async (pool: Pool, data: Login): Promise<User> => {
+  const user: User = (
+    await pool.query("select * from users where username = $1 limit 1", [
+      data.username,
+    ])
+  ).rows[0];
+  if (await bcrypt.compare(data.password, user.password_hash)) return user;
+  else throw "password";
+};
 
 export const create = async (
   pool: Pool,
