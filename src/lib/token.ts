@@ -1,9 +1,15 @@
 import * as jwt from "jsonwebtoken";
 
-const SECRET = "koala";
-const TOKEN_LIFETIME = 60 * 5;
+const PRIVATE_KEY = process.env.PRIVATE_KEY || String(Math.random());
+const TOKEN_LIFETIME = Number(process.env.TOKEN_LIFETIME) || 3600;
 
-export const sign = (payload: string | object) =>
-  jwt.sign(payload, SECRET, {
+export interface Payload {
+  [p: string]: any;
+}
+
+export const sign = (payload: Payload) =>
+  jwt.sign(payload, PRIVATE_KEY, {
     expiresIn: TOKEN_LIFETIME,
   });
+
+export const verify = (token: string) => jwt.verify(token, PRIVATE_KEY);

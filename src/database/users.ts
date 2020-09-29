@@ -41,16 +41,6 @@ export interface Login {
   password: string;
 }
 
-export const verify = async (pool: Pool, data: Login): Promise<User> => {
-  const user: User = (
-    await pool.query("select * from users where username = $1 limit 1", [
-      data.username,
-    ])
-  ).rows[0];
-  if (await bcrypt.compare(data.password, user.password_hash)) return user;
-  else throw "password";
-};
-
 export const create = async (
   pool: Pool,
   data: NewUser
@@ -93,4 +83,32 @@ export const create = async (
   } finally {
     client.release();
   }
+};
+
+export const verify = async (pool: Pool, data: Login): Promise<User> => {
+  const user: User = (
+    await pool.query("select * from users where username = $1 limit 1", [
+      data.username,
+    ])
+  ).rows[0];
+  if (await bcrypt.compare(data.password, user.password_hash)) return user;
+  else throw "password";
+};
+
+export const profile = async (pool: Pool, id: number): Promise<UserProfile> => {
+  const user: User = (
+    await pool.query("select * from users where id = $1 limit 1", [id])
+  ).rows[0];
+  const accounts: Account[] = (
+    await pool.query("select * from accounts where user_id = $1", [id])
+  ).rows;
+  return {
+    name: user.name,
+    username: user.username,
+    accounts: accounts.map((acc) => ({
+      id: acc.id,
+      name: acc.name,
+      balance: acc.balance,
+    })),
+  };
 };

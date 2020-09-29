@@ -26,9 +26,7 @@ router.post(
             console.log(e);
         }
       }
-    } else {
-      res.status(400).json({ errors: errors.array() });
-    }
+    } else res.status(400).json({ errors: errors.array() });
   }
 );
 
