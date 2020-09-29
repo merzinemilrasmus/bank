@@ -16,6 +16,14 @@ Web server port; default: `PORT=3000`.
 
 Database resource location; default: `DATABASE_URL=postgres://localhost`.
 
+#### PRIVATE_KEY
+
+Private server key for signing.
+
+#### TOKEN_LIFETIME
+
+Session token lifetime; default: `TOKEN_LIFETIME=3600`.
+
 ## Interface
 
 #### Register
@@ -64,5 +72,32 @@ POST /sessions {
     }[];
   };
   401;
+]
+```
+
+#### Profile
+
+```
+GET /users/:id (
+  Authorization: <jwt>
+) -> [
+  200: {
+    name: string;
+    username: string;
+    accounts: {
+      id: number;
+      name: string;
+      balance: number;
+    }[];
+  };
+  400: {
+    errors: {
+      msg: string;
+      param: string;
+      location: string;
+    }[];
+  };
+  401;
+  403;
 ]
 ```
