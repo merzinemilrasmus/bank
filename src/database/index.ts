@@ -7,3 +7,4 @@ export default new Pool({
 });
 
 export * as users from "./users";
+export * as transactions from "./transactions";
