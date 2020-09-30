@@ -65,3 +65,16 @@ export const create = async (
     client.release();
   }
 };
+
+export const list = async (
+  pool: Pool,
+  user_id: number
+): Promise<Transaction[]> => {
+  const transactionList: Transaction[] = (
+    await pool.query(
+      "select transactions.* from transactions left join accounts on accounts.id = from_id or accounts.id = to_id where accounts.user_id = $1",
+      [user_id]
+    )
+  ).rows;
+  return transactionList;
+};

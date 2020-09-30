@@ -45,4 +45,20 @@ router.post(
   }
 );
 
+router.get("/", async (req: Request, res) => {
+  if (!req.tokenPayload) {
+    return res.status(401).end();
+  }
+
+  try {
+    const transactionList = await transactions.list(
+      pool,
+      Number(req.tokenPayload.id)
+    );
+    res.status(200).json(transactionList);
+  } catch (e) {
+    dbErr(e, res);
+  }
+});
+
 export default router;
