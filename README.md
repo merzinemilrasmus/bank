@@ -101,3 +101,39 @@ GET /users/:id (
   403;
 ]
 ```
+
+#### Transfer
+
+```
+POST /transactions (
+  Authorization: <jwt>
+) {
+  accountFrom: number;
+  accountTo: number;
+  amount: number;
+  currency: string;
+  explanation: string;
+} -> {
+  201: {
+    id: number;
+    from_id: number;
+    to_id: number;
+    amount: number;
+    explanation: string;
+  };
+  400: {
+    errors: {
+      msg: string;
+      param: string;
+      location: string;
+    }[];
+  };
+  401;
+  402: {
+    error: string;
+  };
+  403;
+  404;
+  501;
+}
+```
