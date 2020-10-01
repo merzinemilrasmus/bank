@@ -116,8 +116,8 @@ POST /transactions (
 } -> {
   201: {
     id: number;
-    from_id: number;
-    to_id: number;
+    account_from_id: number;
+    account_to_id: number;
     amount: number;
     explanation: string;
   };
@@ -135,5 +135,29 @@ POST /transactions (
   403;
   404;
   501;
+}
+```
+
+#### Transaction Log
+
+```
+GET /transactions (
+  Authorization: <jwt>
+) -> {
+  200: {
+    transactions: {
+      created_at: string;
+      id: number;
+      account_from_id: number;
+      account_to_id: number;
+      user_from_id: number;
+      user_from_name: number;
+      user_to_id: number;
+      user_to_name: number;
+      amount: number;
+      explanation: string;
+    }[];
+  };
+  401;
 }
 ```
