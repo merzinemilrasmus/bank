@@ -33,8 +33,8 @@ router.post(
     try {
       const transaction = await transactions.create(pool, {
         user_id: Number(req.tokenPayload.id),
-        from_id: Number(accountFrom),
-        to_id: Number(accountTo),
+        account_from_id: Number(accountFrom),
+        account_to_id: Number(accountTo),
         amount,
         explanation,
       });
@@ -55,7 +55,7 @@ router.get("/", async (req: Request, res) => {
       pool,
       Number(req.tokenPayload.id)
     );
-    res.status(200).json(transactionList);
+    res.status(200).json({ transactions: transactionList });
   } catch (e) {
     dbErr(e, res);
   }
