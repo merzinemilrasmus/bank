@@ -101,3 +101,63 @@ GET /users/:id (
   403;
 ]
 ```
+
+#### Transfer
+
+```
+POST /transactions (
+  Authorization: <jwt>
+) {
+  accountFrom: number;
+  accountTo: number;
+  amount: number;
+  currency: string;
+  explanation: string;
+} -> {
+  201: {
+    id: number;
+    account_from_id: number;
+    account_to_id: number;
+    amount: number;
+    explanation: string;
+  };
+  400: {
+    errors: {
+      msg: string;
+      param: string;
+      location: string;
+    }[];
+  };
+  401;
+  402: {
+    error: string;
+  };
+  403;
+  404;
+  501;
+}
+```
+
+#### Transaction Log
+
+```
+GET /transactions (
+  Authorization: <jwt>
+) -> {
+  200: {
+    transactions: {
+      created_at: string;
+      id: number;
+      account_from_id: number;
+      account_to_id: number;
+      user_from_id: number;
+      user_from_name: number;
+      user_to_id: number;
+      user_to_name: number;
+      amount: number;
+      explanation: string;
+    }[];
+  };
+  401;
+}
+```

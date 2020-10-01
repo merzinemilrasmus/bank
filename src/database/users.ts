@@ -1,6 +1,8 @@
 import { Pool } from "pg";
 import * as bcrypt from "bcrypt";
 
+import { Account } from "./accounts";
+
 export interface User {
   id: number;
   name: string;
@@ -12,18 +14,6 @@ export interface NewUser {
   name: string;
   username: string;
   password: string;
-}
-
-export interface Account {
-  id: number;
-  user_id: number;
-  name: string;
-  balance: number;
-}
-
-export interface NewAccount {
-  user_id: number;
-  name: string;
 }
 
 export interface UserProfile {
@@ -79,6 +69,12 @@ export const create = async (
     };
   } catch (e) {
     await client.query("rollback");
+    switch (Number(e.code)) {
+      case 23505:
+        throw { http: 409 };
+      default:
+        throw e;
+    }
     throw e;
   } finally {
     client.release();
@@ -86,13 +82,14 @@ export const create = async (
 };
 
 export const verify = async (pool: Pool, data: Login): Promise<User> => {
-  const user: User = (
+  const user: User | undefined = (
     await pool.query("select * from users where username = $1 limit 1", [
       data.username,
     ])
   ).rows[0];
-  if (await bcrypt.compare(data.password, user.password_hash)) return user;
-  else throw "password";
+  if (user && (await bcrypt.compare(data.password, user.password_hash)))
+    return user;
+  else throw { http: 401 };
 };
 
 export const profile = async (pool: Pool, id: number): Promise<UserProfile> => {
