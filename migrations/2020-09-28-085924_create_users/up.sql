@@ -10,4 +10,4 @@ create table users (
   check (length(password_hash) = 60)
 );
 
-create unique index users_username_unique on users (upper(name));
+create unique index user_username_unique on users (upper(name));

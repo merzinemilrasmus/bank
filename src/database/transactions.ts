@@ -2,6 +2,12 @@ import { Pool } from "pg";
 
 import { Account } from "./accounts";
 
+export enum TransactionStatus {
+  Pending = "pending",
+  Success = "success",
+  Failed = "failed",
+}
+
 export interface Transaction {
   created_at: string;
   id: number;
@@ -9,6 +15,7 @@ export interface Transaction {
   account_to_id: number;
   amount: number;
   explanation: string;
+  status: TransactionStatus;
 }
 
 export interface TransactionDetails {
@@ -22,6 +29,7 @@ export interface TransactionDetails {
   user_to_name: number;
   amount: number;
   explanation: string;
+  status: TransactionStatus;
 }
 
 export interface NewTransaction {
@@ -64,12 +72,13 @@ export const create = async (
 
     const transaction: Transaction = (
       await client.query(
-        "insert into transactions (account_from_id, account_to_id, amount, explanation) values ($1, $2, $3, $4) returning *",
+        "insert into transactions (account_from_id, account_to_id, amount, explanation, status) values ($1, $2, $3, $4) returning *",
         [
           data.account_from_id,
           data.account_to_id,
           data.amount,
           data.explanation,
+          TransactionStatus.Success,
         ]
       )
     ).rows[0];

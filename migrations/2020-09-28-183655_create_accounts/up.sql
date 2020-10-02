@@ -7,4 +7,4 @@ create table accounts (
   check (name !~ '^\s*$')
 );
 
-create unique index accounts_name_unique on accounts (user_id, upper(name));
+create unique index account_name_unique on accounts (user_id, upper(name));
