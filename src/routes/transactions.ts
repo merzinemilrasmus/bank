@@ -9,8 +9,8 @@ const router = Router();
 router.post(
   "/",
   [
-    body("accountFrom").isNumeric(),
-    body("accountTo").isNumeric(),
+    body("accountFrom").not().isEmpty(),
+    body("accountTo").not().isEmpty(),
     body("amount").isNumeric(),
     body("currency").not().isEmpty(),
     body("explanation").not().isEmpty(),
@@ -32,13 +32,23 @@ router.post(
 
     try {
       const transaction = await transactions.create(pool, {
-        user_id: Number(req.tokenPayload.id),
-        account_from_id: Number(accountFrom),
-        account_to_id: Number(accountTo),
+        userId: Number(req.tokenPayload.id),
+        accountFrom,
+        accountTo,
         amount,
         explanation,
       });
-      res.status(201).json(transaction);
+      switch (transaction.status) {
+        case transactions.TransactionStatus.Success:
+          res.status(201);
+          break;
+        case transactions.TransactionStatus.Pending:
+          res.status(202);
+          break;
+        default:
+          res.status(500);
+      }
+      res.json(transaction);
     } catch (e) {
       dbErr(e, res);
     }

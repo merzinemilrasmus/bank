@@ -17,6 +17,7 @@ export interface NewUser {
 }
 
 export interface UserProfile {
+  id: number;
   name: string;
   username: string;
   accounts: {
@@ -57,6 +58,7 @@ export const create = async (
     await client.query("commit");
 
     return {
+      id: user.id,
       name: user.name,
       username: user.username,
       accounts: [
@@ -100,6 +102,7 @@ export const profile = async (pool: Pool, id: number): Promise<UserProfile> => {
     await pool.query("select * from accounts where user_id = $1", [id])
   ).rows;
   return {
+    id: user.id,
     name: user.name,
     username: user.username,
     accounts: accounts.map((acc) => ({

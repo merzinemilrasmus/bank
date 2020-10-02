@@ -28,31 +28,31 @@ router.post(
   }
 );
 
-router.get(
-  "/:id",
-  param("id").isNumeric(),
-  async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    if (!req.tokenPayload) {
-      return res.status(401).end();
-    }
-
-    const id = req.params.id;
-    if (Number(req.tokenPayload.id) !== Number(id)) {
-      return res.status(403).end();
-    }
-
-    try {
-      const profile = await users.profile(pool, Number(id));
-      res.status(200).json(profile);
-    } catch (e) {
-      dbErr(e, res);
-    }
+const profile = async (req: Request, res: Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-);
+
+  if (!req.tokenPayload) {
+    return res.status(401).end();
+  }
+
+  const id = Number(req.tokenPayload.id);
+  if (req.params.id && id !== Number(req.params.id)) {
+    return res.status(403).end();
+  }
+
+  try {
+    const profile = await users.profile(pool, id);
+    res.status(200).json(profile);
+  } catch (e) {
+    dbErr(e, res);
+  }
+};
+
+router.get("/", profile);
+
+router.get("/:id", param("id").isNumeric(), profile);
 
 export default router;

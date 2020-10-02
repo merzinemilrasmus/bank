@@ -24,6 +24,10 @@ Private server key for signing.
 
 Session token lifetime; default: `TOKEN_LIFETIME=3600`.
 
+#### ACCOUNT_PREFIX
+
+Session token lifetime; default: `ACCOUNT_PREFIX=ERM`.
+
 ## Interface
 
 #### Register
@@ -35,6 +39,7 @@ POST /users {
   password: string;
 } -> [
   201: {
+    id: number;
     name: string;
     username: string;
     accounts: {
@@ -78,6 +83,7 @@ POST /sessions {
 #### Profile
 
 ```
+GET /users
 GET /users/:id (
   Authorization: <jwt>
 ) -> [
@@ -115,6 +121,15 @@ POST /transactions (
   explanation: string;
 } -> {
   201: {
+    created_at: string;
+    id: number;
+    account_from_id: number;
+    account_to_id: number;
+    amount: number;
+    explanation: string;
+  };
+  202: {
+    created_at: string;
     id: number;
     account_from_id: number;
     account_to_id: number;
@@ -133,7 +148,9 @@ POST /transactions (
     error: string;
   };
   403;
-  404;
+  404: {
+    error: string;
+  };
   501;
 }
 ```
