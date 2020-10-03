@@ -1,5 +1,5 @@
-import { verify, TokenPayload } from "../lib/token";
 import { Request, Response, NextFunction } from "express";
+import { verify, TokenPayload } from "../lib/token";
 
 declare module "express" {
   interface Request {

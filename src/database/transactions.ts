@@ -1,8 +1,6 @@
 import { Pool } from "pg";
-
 import { Account } from "./accounts";
-
-const ACCOUNT_PREFIX = process.env.ACCOUNT_PREFIX || "ERM";
+import { ACCOUNT_PREFIX } from "../constants";
 
 export enum TransactionStatus {
   Pending = "pending",

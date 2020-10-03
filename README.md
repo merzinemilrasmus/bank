@@ -3,6 +3,7 @@
 ## Environment Variables
 
 Environment variables can be stored in `.env` file in the project root.
+Defaults are in [`src/constants.ts`](src/constants.ts).
 
 #### HOST
 

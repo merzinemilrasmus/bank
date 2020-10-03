@@ -1,7 +1,5 @@
 import * as jwt from "jsonwebtoken";
-
-const PRIVATE_KEY = process.env.PRIVATE_KEY || String(Math.random());
-const TOKEN_LIFETIME = Number(process.env.TOKEN_LIFETIME) || 3600;
+import { PRIVATE_KEY, TOKEN_LIFETIME } from "../constants";
 
 export interface TokenPayload {
   id: number;

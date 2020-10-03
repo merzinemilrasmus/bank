@@ -1,12 +1,8 @@
-require("dotenv").config();
-
 import * as express from "express";
 import cors from "./middleware/cors";
 import auth from "./middleware/auth";
 import routes from "./routes";
-
-const HOST = process.env.HOST || "localhost";
-const PORT = Number(process.env.PORT) || 3000;
+import { HOST, PORT } from "./constants";
 
 const app = express();
 app.use(cors, auth, express.json(), routes);
