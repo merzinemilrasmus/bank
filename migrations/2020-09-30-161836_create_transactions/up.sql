@@ -14,5 +14,5 @@ create table transactions (
   status transaction_status not null,
 
   check (amount > 0),
-  check (account_from_id != account_to_id)
+  check (account_from_prefix != account_to_prefix or account_from_id != account_to_id)
 );
