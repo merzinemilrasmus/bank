@@ -2,6 +2,7 @@ import { Pool } from "pg";
 import * as bcrypt from "bcrypt";
 
 import { Account } from "./accounts";
+import { ACCOUNT_PREFIX } from "../constants";
 
 export interface User {
   id: number;
@@ -21,7 +22,7 @@ export interface UserProfile {
   name: string;
   username: string;
   accounts: {
-    id: number;
+    id: string;
     name: string;
     balance: number;
   }[];
@@ -63,7 +64,7 @@ export const create = async (
       username: user.username,
       accounts: [
         {
-          id: account.id,
+          id: `${ACCOUNT_PREFIX}${account.id}`,
           name: account.name,
           balance: account.balance,
         },
@@ -106,7 +107,7 @@ export const profile = async (pool: Pool, id: number): Promise<UserProfile> => {
     name: user.name,
     username: user.username,
     accounts: accounts.map((acc) => ({
-      id: acc.id,
+      id: `${ACCOUNT_PREFIX}${acc.id}`,
       name: acc.name,
       balance: acc.balance,
     })),

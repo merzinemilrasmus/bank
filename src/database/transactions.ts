@@ -161,10 +161,10 @@ export const list = async (
           select user_from.*, users.id user_to_id, users.name user_to_name from (
             select transactions.*, users.id user_from_id, users.name user_from_name from
               transactions
-            left join accounts on accounts.id = account_from_id
+            left join accounts on account_from_prefix = $2 and accounts.id::text = account_from_id
             left join users on accounts.user_id = users.id
           ) user_from
-          left join accounts on accounts.id = account_to_id
+          left join accounts on account_to_prefix = $2 and accounts.id::text = account_to_id
           left join users on accounts.user_id = users.id
         ) user_to
         where

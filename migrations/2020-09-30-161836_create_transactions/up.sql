@@ -5,9 +5,9 @@ create table transactions (
   id bigint primary key generated always as identity,
 
   account_from_prefix char(3) not null,
-  account_from_id bigint not null,
+  account_from_id varchar(61) not null,
   account_to_prefix char(3) not null,
-  account_to_id bigint not null,
+  account_to_id varchar(61) not null,
 
   amount bigint not null,
   explanation varchar(128) not null,
