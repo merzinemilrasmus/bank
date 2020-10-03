@@ -1,25 +1,30 @@
 #!/bin/sh
 
+dir=$(dirname "$(readlink -f "$0")")
+
+# shellcheck source=format.sh
+. "$dir/format.sh"
 # shellcheck source=../.env
-. "$(dirname "$(readlink -f "$0")")/../.env"
+. "$dir/../.env"
+
 [ -z "$HOST" ] && HOST=localhost
 [ -z "$PORT" ] && PORT=3000
 
-printf 'jwt: '
+printf 'jwt: ' >&2
 read -r jwt
-printf 'accountFrom: '
+printf 'accountFrom: ' >&2
 read -r account_from
-printf 'accountTo: '
+printf 'accountTo: ' >&2
 read -r account_to
-printf 'amount: '
+printf 'amount: ' >&2
 read -r amount
-printf 'currency (USD): '
+printf 'currency (USD): ' >&2
 read -r currency
 [ -z "$currency" ] && currency=USD
-printf 'explanation: '
+printf 'explanation: ' >&2
 read -r explanation
 
-query="curl -i http://$HOST:$PORT/transactions
+query="curl http://$HOST:$PORT/transactions
   -H 'Content-Type: application/json'
   -H 'Authorization: $jwt'
   -d '{
@@ -30,5 +35,5 @@ query="curl -i http://$HOST:$PORT/transactions
     \"explanation\":\"$explanation\"
   }'"
 
-echo "> $query"
-eval "$(echo "$query" | paste -sd ' ')"
+echo "> $query" >&2
+format "$(eval "$(echo "$query" | paste -sd ' ')")"

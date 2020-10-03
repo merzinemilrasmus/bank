@@ -1,15 +1,20 @@
 #!/bin/sh
 
+dir=$(dirname "$(readlink -f "$0")")
+
+# shellcheck source=format.sh
+. "$dir/format.sh"
 # shellcheck source=../.env
-. "$(dirname "$(readlink -f "$0")")/../.env"
+. "$dir/../.env"
+
 [ -z "$HOST" ] && HOST=localhost
 [ -z "$PORT" ] && PORT=3000
 
-printf 'jwt: '
+printf 'jwt: ' >&2
 read -r jwt
 
-query="curl -i http://$HOST:$PORT/users
+query="curl http://$HOST:$PORT/users
   -H 'Authorization: $jwt'"
 
-echo "> $query"
-eval "$(echo "$query" | paste -sd ' ')"
+echo "> $query" >&2
+format "$(eval "$(echo "$query" | paste -sd ' ')")"
