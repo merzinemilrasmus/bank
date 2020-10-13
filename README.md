@@ -23,7 +23,7 @@ Secret to sign session tokens with; default is random.
 
 #### TOKEN_LIFETIME
 
-Session token lifetime; default: `TOKEN_LIFETIME=3600`.
+Session token lifetime; default: `TOKEN_LIFETIME=60m`.
 
 #### ACCOUNT_PREFIX
 
