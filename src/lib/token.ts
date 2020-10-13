@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import { PRIVATE_KEY, TOKEN_LIFETIME } from "../constants";
+import { SESSION_SIGNING_SECRET, TOKEN_LIFETIME } from "../constants";
 
 export interface TokenPayload {
   id: number;
@@ -8,9 +8,9 @@ export interface TokenPayload {
 }
 
 export const sign = (payload: TokenPayload) =>
-  jwt.sign(payload, PRIVATE_KEY, {
+  jwt.sign(payload, SESSION_SIGNING_SECRET, {
     expiresIn: TOKEN_LIFETIME,
   });
 
 export const verify = (token: string) =>
-  jwt.verify(token, PRIVATE_KEY) as TokenPayload;
+  jwt.verify(token, SESSION_SIGNING_SECRET) as TokenPayload;

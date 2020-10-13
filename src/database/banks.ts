@@ -17,4 +17,4 @@ export interface NewBank {
   jwksUrl: string;
 }
 
-export const updateBanksList = (pool: Pool, data: NewBank[]) => {};
+export const updateBanksList = (_pool: Pool, _data: NewBank[]) => {};

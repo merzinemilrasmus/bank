@@ -17,9 +17,9 @@ Web server port; default: `PORT=3000`.
 
 Database resource location; default: `DATABASE_URL=postgres://localhost`.
 
-#### PRIVATE_KEY
+#### SESSION_SIGNING_SECRET
 
-Private server key for signing.
+Secret to sign session tokens with; default is random.
 
 #### TOKEN_LIFETIME
 
@@ -28,6 +28,10 @@ Session token lifetime; default: `TOKEN_LIFETIME=3600`.
 #### ACCOUNT_PREFIX
 
 Session token lifetime; default: `ACCOUNT_PREFIX=ERM`.
+
+## JWKS
+
+JSON Web Key Set should be at `jwks.json`.
 
 ## Interface
 

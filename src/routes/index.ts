@@ -5,7 +5,7 @@ const router = Router();
 fs.readdirSync(__dirname).forEach(
   (file) =>
     !/^index/.test(file) &&
-    router.use(`/${file.split(".")[0]}`, require(`./${file}`).default)
+    router.use(`/${file.replace(/\.[^.]*$/, "")}`, require(`./${file}`).default)
 );
 
 export default router;
