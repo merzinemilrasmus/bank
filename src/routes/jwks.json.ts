@@ -1,16 +1,10 @@
 import { Router } from "express";
-import { JWKS } from "../constants";
+import { PRIVATE_KEY } from "../constants";
+import { JWKS } from "jose";
 const router = Router();
 
 router.get("/", (_, res) =>
-  res.json({
-    keys: JWKS.keys.map((pair: any) => ({
-      kty: pair.kty,
-      e: pair.e,
-      use: pair.use,
-      n: pair.n,
-    })),
-  })
+  res.json(new JWKS.KeyStore([PRIVATE_KEY]).toJWKS())
 );
 
 export default router;

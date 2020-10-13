@@ -1,5 +1,5 @@
 import { JWT } from "jose";
-import { SESSION_SIGNING_SECRET, TOKEN_LIFETIME } from "../constants";
+import { PRIVATE_KEY, TOKEN_LIFETIME } from "../constants";
 
 export interface TokenPayload {
   id: number;
@@ -8,9 +8,9 @@ export interface TokenPayload {
 }
 
 export const sign = (payload: TokenPayload) =>
-  JWT.sign(payload, SESSION_SIGNING_SECRET, {
+  JWT.sign(payload, PRIVATE_KEY, {
     expiresIn: TOKEN_LIFETIME,
   });
 
 export const verify = (token: string) =>
-  JWT.verify(token, SESSION_SIGNING_SECRET) as TokenPayload;
+  JWT.verify(token, PRIVATE_KEY) as TokenPayload;
