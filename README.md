@@ -183,3 +183,32 @@ GET /transactions (
   401;
 }
 ```
+
+#### Bank to Bank
+
+```
+POST /transactions/b2b {
+  jwt: <jwt>{
+    accountFrom: number;
+    accountTo: number;
+    amount: number;
+    currency: string;
+    explanation: string;
+    senderName: string;
+  };
+} -> {
+  201;
+  400: {
+    errors: {
+      location: string;
+      param: any;
+      msg: any;
+      value?: any;
+    }[];
+  };
+  401;
+  404: {
+    error: string;
+  };
+}
+```
