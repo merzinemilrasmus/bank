@@ -23,11 +23,11 @@ router.post(
 
     const { accountFrom, accountTo, amount, currency, explanation } = req.body;
     if (currency.toLowerCase() !== "usd") {
-      return res.status(501).end();
+      return res.sendStatus(501);
     }
 
     if (!req.tokenPayload) {
-      return res.status(401).end();
+      return res.sendStatus(401);
     }
 
     try {
@@ -57,7 +57,7 @@ router.post(
 
 router.get("/", async (req: Request, res) => {
   if (!req.tokenPayload) {
-    return res.status(401).end();
+    return res.sendStatus(401);
   }
 
   try {

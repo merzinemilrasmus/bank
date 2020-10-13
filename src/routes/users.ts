@@ -35,12 +35,12 @@ const profile = async (req: Request, res: Response) => {
   }
 
   if (!req.tokenPayload) {
-    return res.status(401).end();
+    return res.sendStatus(401);
   }
 
   const id = Number(req.tokenPayload.id);
   if (req.params.id && id !== Number(req.params.id)) {
-    return res.status(403).end();
+    return res.sendStatus(403);
   }
 
   try {

@@ -51,9 +51,10 @@ POST /users {
   };
   400: {
     errors: {
-      msg: string;
-      param: string;
       location: string;
+      param: any;
+      msg: any;
+      value?: any;
     }[];
   };
   409;
@@ -72,9 +73,10 @@ POST /sessions {
   };
   400: {
     errors: {
-      msg: string;
-      param: string;
       location: string;
+      param: any;
+      msg: any;
+      value?: any;
     }[];
   };
   401;
@@ -99,9 +101,10 @@ GET /users/:id (
   };
   400: {
     errors: {
-      msg: string;
-      param: string;
       location: string;
+      param: any;
+      msg: any;
+      value?: any;
     }[];
   };
   401;
@@ -139,9 +142,10 @@ POST /transactions (
   };
   400: {
     errors: {
-      msg: string;
-      param: string;
       location: string;
+      param: any;
+      msg: any;
+      value?: any;
     }[];
   };
   401;
